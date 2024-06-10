@@ -7,6 +7,6 @@
 
 import UIKit
 
-protocol SingleImageViewControllerProtocol {
+protocol SingleImageViewControllerProtocol: UIViewController {
     func setImage(image: UIImage)
 }

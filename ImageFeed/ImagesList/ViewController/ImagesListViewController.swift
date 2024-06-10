@@ -28,11 +28,7 @@ final class ImagesListViewController: UIViewController {
         return formatter
     }()
     
-    // MARK: Lifecycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
+    // MARK: Overrides
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showSingleImageSegueIdentifier {
             guard
