@@ -8,7 +8,7 @@
 import Foundation
 
 protocol Singleton {
-    associatedtype T
+    associatedtype T = Self
     
     static var shared: T { get }
 }

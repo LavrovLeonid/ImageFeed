@@ -9,7 +9,7 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
     // MARK: Lazy properties
-    private lazy var profileImageView: UIImageView = {
+    private let profileImageView: UIImageView = {
         let imageView = UIImageView(
             image: UIImage(resource: .avatar)
         )
@@ -33,7 +33,7 @@ final class ProfileViewController: UIViewController {
         return button
     }()
     
-    private lazy var descriptionStackView: UIStackView = {
+    private let descriptionStackView: UIStackView = {
         let stackView = UIStackView()
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -43,7 +43,7 @@ final class ProfileViewController: UIViewController {
         return stackView
     }()
     
-    private lazy var nameLabel: UILabel = {
+    private let nameLabel: UILabel = {
         let label = UILabel()
         
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -54,7 +54,7 @@ final class ProfileViewController: UIViewController {
         return label
     }()
     
-    private lazy var nicknameLabel: UILabel = {
+    private let nicknameLabel: UILabel = {
         let label = UILabel()
         
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -65,7 +65,7 @@ final class ProfileViewController: UIViewController {
         return label
     }()
     
-    private lazy var descriptionLabel: UILabel = {
+    private let descriptionLabel: UILabel = {
         let label = UILabel()
         
         label.translatesAutoresizingMaskIntoConstraints = false
