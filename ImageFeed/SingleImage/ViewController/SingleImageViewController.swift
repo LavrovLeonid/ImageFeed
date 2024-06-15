@@ -7,11 +7,13 @@
 
 import UIKit
 
-final class SingleImageViewController: UIViewController {
+final class SingleImageViewController: UIViewController, SingleImageViewControllerProtocol {
+    // MARK: Outlets
     @IBOutlet private weak var scrollView: UIScrollView!
     @IBOutlet private weak var imageView: UIImageView!
     
-    var image: UIImage? {
+    // MARK: Private properties
+    private var image: UIImage? {
         didSet {
             guard isViewLoaded else { return }
             
@@ -43,6 +45,12 @@ final class SingleImageViewController: UIViewController {
         present(share, animated: true)
     }
     
+    // MARK: Properties
+    func setImage(image: UIImage) {
+        self.image = image
+    }
+    
+    // MARK: Private properties
     private func setupImage() {
         guard let image else { return }
         
@@ -75,12 +83,7 @@ final class SingleImageViewController: UIViewController {
     }
 }
 
-extension SingleImageViewController: SingleImageViewControllerProtocol {
-    func setImage(image: UIImage) {
-        self.image = image
-    }
-}
-
+// MARK: UIScrollViewDelegate
 extension SingleImageViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         imageView

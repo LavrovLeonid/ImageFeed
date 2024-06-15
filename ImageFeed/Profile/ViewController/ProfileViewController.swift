@@ -8,24 +8,83 @@
 import UIKit
 
 final class ProfileViewController: UIViewController {
-    private var label: UILabel?
+    // MARK: Lazy properties
+    private let profileImageView: UIImageView = {
+        let imageView = UIImageView(
+            image: UIImage(resource: .avatar)
+        )
+        
+        imageView.tintColor = .gray
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return imageView
+    }()
     
+    private lazy var exitButton: UIButton = {
+        let button = UIButton.systemButton(
+            with: UIImage(resource: .exit),
+            target: self,
+            action: nil
+        )
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.tintColor = .ypRed
+        
+        return button
+    }()
+    
+    private let descriptionStackView: UIStackView = {
+        let stackView = UIStackView()
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.spacing = 8
+        
+        return stackView
+    }()
+    
+    private let nameLabel: UILabel = {
+        let label = UILabel()
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Екатерина Новикова"
+        label.font = .systemFont(ofSize: 23, weight: .bold)
+        label.textColor = .ypWhite
+        
+        return label
+    }()
+    
+    private let nicknameLabel: UILabel = {
+        let label = UILabel()
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "@ekaterina_nov"
+        label.font = .systemFont(ofSize: 13, weight: .medium)
+        label.textColor = .ypGray
+        
+        return label
+    }()
+    
+    private let descriptionLabel: UILabel = {
+        let label = UILabel()
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Hello, world!"
+        label.font = .systemFont(ofSize: 13, weight: .medium)
+        label.textColor = .ypWhite
+        
+        return label
+    }()
+
+    // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupView()
     }
     
+    // MARK: Private methods
     private func setupView() {
-        let profileImageView = createProfileImageView()
-        let exitButton = createExitButton()
-        
-        let descriptionStackView = createDescriptionStackView()
-        
-        let nameLabel = createNameLabel()
-        let nicknameLabel = createNicknameLabel()
-        let descriptionLabel = createDescriptionLabel()
-        
         descriptionStackView.addArrangedSubview(nameLabel)
         descriptionStackView.addArrangedSubview(nicknameLabel)
         descriptionStackView.addArrangedSubview(descriptionLabel)
@@ -67,72 +126,5 @@ final class ProfileViewController: UIViewController {
                 constant: -16
             )
         ])
-    }
-    
-    private func createProfileImageView() -> UIImageView {
-        let imageView = UIImageView(
-            image: UIImage(resource: .avatar)
-        )
-        
-        imageView.tintColor = .gray
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        return imageView
-    }
-    
-    private func createExitButton() -> UIButton {
-        let button = UIButton.systemButton(
-            with: UIImage(resource: .exit),
-            target: self,
-            action: nil
-        )
-        
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.tintColor = .ypRed
-        
-        return button
-    }
-    
-    private func createDescriptionStackView() -> UIStackView {
-        let stackView = UIStackView()
-        
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.spacing = 8
-        
-        return stackView
-    }
-    
-    private func createNameLabel() -> UILabel {
-        let label = UILabel()
-        
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Екатерина Новикова"
-        label.font = .systemFont(ofSize: 23, weight: .bold)
-        label.textColor = .ypWhite
-        
-        return label
-    }
-    
-    private func createNicknameLabel() -> UILabel {
-        let label = UILabel()
-        
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "@ekaterina_nov"
-        label.font = .systemFont(ofSize: 13, weight: .medium)
-        label.textColor = .ypGray
-        
-        return label
-    }
-    
-    private func createDescriptionLabel() -> UILabel {
-        let label = UILabel()
-        
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Hello, world!"
-        label.font = .systemFont(ofSize: 13, weight: .medium)
-        label.textColor = .ypWhite
-        
-        return label
     }
 }
