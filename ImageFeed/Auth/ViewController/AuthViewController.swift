@@ -41,15 +41,19 @@ extension AuthViewController: WebViewViewControllerDelegate {
     ) {
         navigationController?.popViewController(animated: true)
         
+        UIBlockingProgressHUD.show()
+        
         oAuth2Service.fetchOAuthToken(code: code) { [weak self] result in
             guard let self else { return }
+            
+            UIBlockingProgressHUD.dismiss()
             
             switch result {
                 case .success(let data):
                     oAuth2TokenStorage.setToken(token: data.accessToken)
                     delegate?.didAuthenticate(self)
                 case .failure(_):
-                    // TODO: Будет реализовано позднее
+                    // TODO: Обработка ошибки будет реализована позднее
                     break
             }
         }

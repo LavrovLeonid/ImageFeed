@@ -9,4 +9,5 @@ import Foundation
 
 enum OAuth2ServiceError: Error {
     case decodingError
+    case invalidRequest
 }

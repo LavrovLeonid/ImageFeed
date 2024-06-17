@@ -8,7 +8,9 @@
 import UIKit
 
 final class ProfileViewController: UIViewController {
-    // MARK: Lazy properties
+    // MARK: Private properties
+    private let profileService = ProfileService.shared
+    
     private let profileImageView: UIImageView = {
         let imageView = UIImageView(
             image: UIImage(resource: .avatar)
@@ -47,31 +49,29 @@ final class ProfileViewController: UIViewController {
         let label = UILabel()
         
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Екатерина Новикова"
         label.font = .systemFont(ofSize: 23, weight: .bold)
         label.textColor = .ypWhite
         
         return label
     }()
     
-    private let nicknameLabel: UILabel = {
+    private let loginLabel: UILabel = {
         let label = UILabel()
         
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "@ekaterina_nov"
         label.font = .systemFont(ofSize: 13, weight: .medium)
         label.textColor = .ypGray
         
         return label
     }()
     
-    private let descriptionLabel: UILabel = {
+    private let bioLabel: UILabel = {
         let label = UILabel()
         
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Hello, world!"
         label.font = .systemFont(ofSize: 13, weight: .medium)
         label.textColor = .ypWhite
+        label.numberOfLines = 0
         
         return label
     }()
@@ -85,9 +85,13 @@ final class ProfileViewController: UIViewController {
     
     // MARK: Private methods
     private func setupView() {
+        if let profile = profileService.profile {
+            updateProfileDetails(profile: profile)
+        }
+        
         descriptionStackView.addArrangedSubview(nameLabel)
-        descriptionStackView.addArrangedSubview(nicknameLabel)
-        descriptionStackView.addArrangedSubview(descriptionLabel)
+        descriptionStackView.addArrangedSubview(loginLabel)
+        descriptionStackView.addArrangedSubview(bioLabel)
         
         view.addSubview(profileImageView)
         view.addSubview(exitButton)
@@ -126,5 +130,11 @@ final class ProfileViewController: UIViewController {
                 constant: -16
             )
         ])
+    }
+    
+    private func updateProfileDetails(profile: Profile) {
+        nameLabel.text = profile.name
+        loginLabel.text = profile.login
+        bioLabel.text = profile.bio
     }
 }

@@ -15,16 +15,30 @@ final class OAuth2Service: OAuth2ServiceProtocol, Singleton {
     // MARK: Private properties
     private let urlSession = URLSession.shared
     
+    private var task: URLSessionTask?
+    private var lastCode: String?
+    
     // MARK: Methods
     func fetchOAuthToken(
         code: String,
         completion: @escaping (Result<OAuthTokenResponseBody, Error>) -> Void
     ) {
-        guard let urlRequest = makeOAuthTokenRequest(code: code) else {
+        assert(Thread.isMainThread)
+        
+        guard lastCode != code else {
+            completion(.failure(OAuth2ServiceError.invalidRequest))
             return
         }
         
-        let task = urlSession.data(for: urlRequest) { result in
+        task?.cancel()
+        lastCode = code
+        
+        guard let urlRequest = makeOAuthTokenRequest(code: code) else {
+            completion(.failure(OAuth2ServiceError.invalidRequest))
+            return
+        }
+        
+        let task = urlSession.data(for: urlRequest) { [weak self] result in
             switch result {
                 case .success(let data):
                     do {
@@ -43,8 +57,11 @@ final class OAuth2Service: OAuth2ServiceProtocol, Singleton {
                 case .failure(let error):
                     completion(.failure(error))
             }
+            
+            self?.task = nil
+            self?.lastCode = nil
         }
-        
+        self.task = task
         task.resume()
     }
     
