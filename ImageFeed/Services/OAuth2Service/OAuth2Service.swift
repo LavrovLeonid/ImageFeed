@@ -26,7 +26,7 @@ final class OAuth2Service: OAuth2ServiceProtocol, Singleton {
         assert(Thread.isMainThread)
         
         guard lastCode != code else {
-            completion(.failure(OAuth2ServiceError.invalidRequest))
+            completion(.failure(NetworkError.invalidRequest))
             return
         }
         
@@ -34,29 +34,13 @@ final class OAuth2Service: OAuth2ServiceProtocol, Singleton {
         lastCode = code
         
         guard let urlRequest = makeOAuthTokenRequest(code: code) else {
-            completion(.failure(OAuth2ServiceError.invalidRequest))
+            completion(.failure(NetworkError.invalidRequest))
             return
         }
         
-        let task = urlSession.data(for: urlRequest) { [weak self] result in
-            switch result {
-                case .success(let data):
-                    do {
-                        let decoder = JSONDecoder()
-                        
-                        let response = try decoder.decode(
-                            OAuthTokenResponseBody.self,
-                            from: data
-                        )
-                        
-                        completion(.success(response))
-                    } catch {
-                        print("Decoding error")
-                        completion(.failure(OAuth2ServiceError.decodingError))
-                    }
-                case .failure(let error):
-                    completion(.failure(error))
-            }
+        let task = urlSession.objectTask(for: urlRequest) { 
+            [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
+            completion(result)
             
             self?.task = nil
             self?.lastCode = nil

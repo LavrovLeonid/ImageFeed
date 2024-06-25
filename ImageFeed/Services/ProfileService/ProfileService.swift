@@ -28,7 +28,7 @@ final class ProfileService: ProfileSereviceProtocol, Singleton {
         assert(Thread.isMainThread)
         
         guard lastToken != token else {
-            completion(.failure(OAuth2ServiceError.invalidRequest))
+            completion(.failure(NetworkError.invalidRequest))
             return
         }
         
@@ -36,29 +36,19 @@ final class ProfileService: ProfileSereviceProtocol, Singleton {
         lastToken = token
         
         guard let urlRequest = makeProfileRequest(token) else {
-            completion(.failure(OAuth2ServiceError.invalidRequest))
+            completion(.failure(NetworkError.invalidRequest))
             return
         }
         
-        let task = urlSession.data(for: urlRequest) { [weak self] result in
+        let task = urlSession.objectTask(for: urlRequest) { 
+            [weak self] (result: Result<ProfileResult, Error>) in
             switch result {
                 case .success(let data):
-                    do {
-                        let decoder = JSONDecoder()
-                        
-                        let response = try decoder.decode(
-                            ProfileResult.self,
-                            from: data
-                        )
-                        let profile = Profile(profileResult: response)
-                        
-                        self?.profile = profile
-                        
-                        completion(.success(profile))
-                    } catch {
-                        print("Decoding error")
-                        completion(.failure(OAuth2ServiceError.decodingError))
-                    }
+                    let profile = Profile(profileResult: data)
+                    
+                    self?.profile = profile
+                    
+                    completion(.success(profile))
                 case .failure(let error):
                     completion(.failure(error))
             }

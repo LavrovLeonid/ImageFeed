@@ -8,6 +8,7 @@
 import Foundation
 
 struct Profile {
+    let username: String
     let name: String
     let login: String
     let bio: String
@@ -15,8 +16,10 @@ struct Profile {
     init(profileResult: ProfileResult) {
         if let username = profileResult.username {
             login = "@\(username)"
+            self.username = username
         } else {
             login = ""
+            username = ""
         }
         
         name = "\(profileResult.first_name ?? "") \(profileResult.last_name ?? "")"

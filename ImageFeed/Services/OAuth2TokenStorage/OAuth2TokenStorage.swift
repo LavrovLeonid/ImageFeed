@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftKeychainWrapper
 
 final class OAuth2TokenStorage: OAuth2TokenStorageProtocol, Singleton {
     // MARK: Singleton
@@ -13,7 +14,7 @@ final class OAuth2TokenStorage: OAuth2TokenStorageProtocol, Singleton {
     private init() {}
     
     // MARK: Private protperties
-    private let userDefaults = UserDefaults.standard
+    private let keychainWrapper = KeychainWrapper.standard
     
     private enum Keys: String {
         case token
@@ -22,22 +23,19 @@ final class OAuth2TokenStorage: OAuth2TokenStorageProtocol, Singleton {
     // MARK: Protperties
     var token: String? {
         get {
-            guard let data = userDefaults.data(forKey: Keys.token.rawValue),
-                  let token = try? JSONDecoder().decode(
-                    String.self, from: data
-                  ) else {
+            guard let token = keychainWrapper.string(forKey: Keys.token.rawValue) else {
                 return nil
             }
             
             return token
         }
         set {
-            guard let data = try? JSONEncoder().encode(newValue) else {
-                print("Error encode token")
+            guard let newValue else {
+                keychainWrapper.removeObject(forKey: Keys.token.rawValue)
                 return
             }
             
-            userDefaults.set(data, forKey: Keys.token.rawValue)
+            keychainWrapper.set(newValue, forKey: Keys.token.rawValue)
         }
     }
     
