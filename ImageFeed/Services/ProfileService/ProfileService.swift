@@ -28,6 +28,7 @@ final class ProfileService: ProfileSereviceProtocol, Singleton {
         assert(Thread.isMainThread)
         
         guard lastToken != token else {
+            print("ProfileService Error: last token not equal current token")
             completion(.failure(NetworkError.invalidRequest))
             return
         }
@@ -36,6 +37,7 @@ final class ProfileService: ProfileSereviceProtocol, Singleton {
         lastToken = token
         
         guard let urlRequest = makeProfileRequest(token) else {
+            print("ProfileService Error: fail make request")
             completion(.failure(NetworkError.invalidRequest))
             return
         }
@@ -50,6 +52,10 @@ final class ProfileService: ProfileSereviceProtocol, Singleton {
                     
                     completion(.success(profile))
                 case .failure(let error):
+                    print(
+                        "ProfileService Error: fail request with error ",
+                        error.localizedDescription
+                    )
                     completion(.failure(error))
             }
             

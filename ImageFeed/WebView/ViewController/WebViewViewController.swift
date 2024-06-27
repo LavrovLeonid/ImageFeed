@@ -77,7 +77,7 @@ final class WebViewViewController:
         }
     }
     
-    @IBAction private func backButtonItemTapped() {
+    @IBAction private func backButtonTapped() {
         delegate?.webViewViewControllerDidCancel(self)
     }
 }

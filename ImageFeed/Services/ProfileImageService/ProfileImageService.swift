@@ -28,6 +28,7 @@ final class ProfileImageService: ProfileImageServiceProtocol, Singleton {
         assert(Thread.isMainThread)
         
         guard lastUsername != username else {
+            print("ProfileImageService Error: last username not equal current username")
             completion(.failure(NetworkError.invalidRequest))
             return
         }
@@ -36,6 +37,7 @@ final class ProfileImageService: ProfileImageServiceProtocol, Singleton {
         lastUsername = username
         
         guard let urlRequest = makeProfileImageURLRequest(username: username) else {
+            print("ProfileImageService Error: fail make request")
             completion(.failure(NetworkError.invalidRequest))
             return
         }
@@ -56,10 +58,17 @@ final class ProfileImageService: ProfileImageServiceProtocol, Singleton {
                             userInfo: ["URL": avatarURL]
                         )
                     } else {
-                        print("Not found image: ", data)
+                        print(
+                            "ProfileImageService Error: not found image ",
+                            data
+                        )
                         completion(.failure(NetworkError.decodingError))
                     }
                 case .failure(let error):
+                    print(
+                        "ProfileImageService Error: fail request with error ",
+                        error.localizedDescription
+                    )
                     completion(.failure(error))
             }
             

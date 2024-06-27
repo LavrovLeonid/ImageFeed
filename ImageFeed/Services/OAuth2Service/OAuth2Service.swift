@@ -26,6 +26,7 @@ final class OAuth2Service: OAuth2ServiceProtocol, Singleton {
         assert(Thread.isMainThread)
         
         guard lastCode != code else {
+            print("OAuth2Service Error: last auth code not equal current code")
             completion(.failure(NetworkError.invalidRequest))
             return
         }
@@ -34,6 +35,7 @@ final class OAuth2Service: OAuth2ServiceProtocol, Singleton {
         lastCode = code
         
         guard let urlRequest = makeOAuthTokenRequest(code: code) else {
+            print("OAuth2Service Error: fail make request")
             completion(.failure(NetworkError.invalidRequest))
             return
         }

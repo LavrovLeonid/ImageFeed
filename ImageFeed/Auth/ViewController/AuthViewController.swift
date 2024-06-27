@@ -51,7 +51,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
         _ vc: WebViewViewControllerProtocol,
         didAuthenticateWithCode code: String
     ) {
-        navigationController?.popViewController(animated: true)
+        vc.dismiss(animated: true)
         
         UIBlockingProgressHUD.show()
         
@@ -76,6 +76,6 @@ extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewControllerDidCancel(
         _ vc: WebViewViewControllerProtocol
     ) {
-        navigationController?.popViewController(animated: true)
+        vc.dismiss(animated: true)
     }
 }

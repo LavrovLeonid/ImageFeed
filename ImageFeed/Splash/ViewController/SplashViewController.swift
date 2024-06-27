@@ -52,16 +52,17 @@ final class SplashViewController: UIViewController {
     }
     
     private func presentAuthenticationViewController() {
-        let navigationController = UIStoryboard(
+        let authViewController = UIStoryboard(
             name: "Main", bundle: .main
-        ).instantiateViewController(withIdentifier: "AuthNaviagtionController")
+        ).instantiateViewController(withIdentifier: "AuthViewController")
         
-        if let navigationController = navigationController as? UINavigationController,
-           let authViewController = navigationController.viewControllers.first as? AuthViewController {
+        if let authViewController = authViewController as? AuthViewController {
             authViewController.delegate = self
         }
         
-        present(navigationController, animated: true)
+        authViewController.modalPresentationStyle = .fullScreen
+        
+        present(authViewController, animated: true)
     }
     
     private func switchToTabBarController() {
@@ -102,6 +103,8 @@ final class SplashViewController: UIViewController {
 extension SplashViewController: AuthViewControllerDelegate {
     func didAuthenticate(_ vc: AuthViewControllerProtocol) {
         guard let token = oAuth2TokenStorage.token else { return }
+        
+        vc.dismiss(animated: true)
         
         fetchProfile(token)
     }
