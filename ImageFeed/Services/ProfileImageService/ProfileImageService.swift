@@ -53,7 +53,7 @@ final class ProfileImageService: ProfileImageServiceProtocol, Singleton {
                         completion(.success(avatarURL))
                         
                         notificationService.post(
-                            name: ProfileImageService.didChangeNotification,
+                            name: Self.didChangeNotification,
                             object: self,
                             userInfo: ["URL": avatarURL]
                         )
