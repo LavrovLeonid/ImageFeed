@@ -6,15 +6,20 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
-    // MARK: Lazy properties
+    // MARK: Private properties
+    private let profileService = ProfileService.shared
+    private let profileImageService = ProfileImageService.shared
+    private let notificationCenter = NotificationCenter.default
+    
     private let profileImageView: UIImageView = {
-        let imageView = UIImageView(
-            image: UIImage(resource: .avatar)
-        )
+        let imageView = UIImageView()
         
-        imageView.tintColor = .gray
+        imageView.image = UIImage(resource: .profilePlaceholder)
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = 35
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         return imageView
@@ -47,47 +52,68 @@ final class ProfileViewController: UIViewController {
         let label = UILabel()
         
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Екатерина Новикова"
         label.font = .systemFont(ofSize: 23, weight: .bold)
         label.textColor = .ypWhite
         
         return label
     }()
     
-    private let nicknameLabel: UILabel = {
+    private let loginLabel: UILabel = {
         let label = UILabel()
         
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "@ekaterina_nov"
         label.font = .systemFont(ofSize: 13, weight: .medium)
         label.textColor = .ypGray
         
         return label
     }()
     
-    private let descriptionLabel: UILabel = {
+    private let bioLabel: UILabel = {
         let label = UILabel()
         
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Hello, world!"
         label.font = .systemFont(ofSize: 13, weight: .medium)
         label.textColor = .ypWhite
+        label.numberOfLines = 0
         
         return label
     }()
-
+    
     // MARK: Lifecycle
+    override init(nibName: String?, bundle: Bundle?) {
+        super.init(nibName: nibName, bundle: bundle)
+        addObserver()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        addObserver()
+    }
+    
+    deinit {
+        removeObserver()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupView()
+        
+        if let avatarURL = profileImageService.avatarURL,
+           let url = URL(string: avatarURL) {
+            setupImage(url: url)
+        }
     }
     
     // MARK: Private methods
     private func setupView() {
+        if let profile = profileService.profile {
+            updateProfileDetails(profile: profile)
+        }
+        
         descriptionStackView.addArrangedSubview(nameLabel)
-        descriptionStackView.addArrangedSubview(nicknameLabel)
-        descriptionStackView.addArrangedSubview(descriptionLabel)
+        descriptionStackView.addArrangedSubview(loginLabel)
+        descriptionStackView.addArrangedSubview(bioLabel)
         
         view.addSubview(profileImageView)
         view.addSubview(exitButton)
@@ -126,5 +152,44 @@ final class ProfileViewController: UIViewController {
                 constant: -16
             )
         ])
+    }
+    
+    private func updateProfileDetails(profile: Profile) {
+        nameLabel.text = profile.name
+        loginLabel.text = profile.login
+        bioLabel.text = profile.bio
+    }
+    
+    private func setupImage(url: URL) {
+        profileImageView.kf.indicatorType = .activity
+        profileImageView.kf.setImage(with: url)
+    }
+    
+    @IBAction private func updateAvatar(notification: Notification) {
+        guard
+            isViewLoaded,
+            let userInfo = notification.userInfo,
+            let profileImageURL = userInfo["URL"] as? String,
+            let url = URL(string: profileImageURL)
+        else { return }
+        
+        setupImage(url: url)
+    }
+    
+    private func addObserver() {
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(updateAvatar(notification:)),
+            name: ProfileImageService.didChangeNotification,
+            object: nil
+        )
+    }
+    
+    private func removeObserver() {
+        notificationCenter.removeObserver(
+            self,
+            name: ProfileImageService.didChangeNotification,
+            object: nil
+        )
     }
 }

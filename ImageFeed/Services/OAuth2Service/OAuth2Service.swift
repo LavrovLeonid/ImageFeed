@@ -15,36 +15,39 @@ final class OAuth2Service: OAuth2ServiceProtocol, Singleton {
     // MARK: Private properties
     private let urlSession = URLSession.shared
     
+    private var task: URLSessionTask?
+    private var lastCode: String?
+    
     // MARK: Methods
     func fetchOAuthToken(
         code: String,
         completion: @escaping (Result<OAuthTokenResponseBody, Error>) -> Void
     ) {
-        guard let urlRequest = makeOAuthTokenRequest(code: code) else {
+        assert(Thread.isMainThread)
+        
+        guard lastCode != code else {
+            print("OAuth2Service Error: last auth code not equal current code")
+            completion(.failure(NetworkError.invalidRequest))
             return
         }
         
-        let task = urlSession.data(for: urlRequest) { result in
-            switch result {
-                case .success(let data):
-                    do {
-                        let decoder = JSONDecoder()
-                        
-                        let response = try decoder.decode(
-                            OAuthTokenResponseBody.self,
-                            from: data
-                        )
-                        
-                        completion(.success(response))
-                    } catch {
-                        print("Decoding error")
-                        completion(.failure(OAuth2ServiceError.decodingError))
-                    }
-                case .failure(let error):
-                    completion(.failure(error))
-            }
+        task?.cancel()
+        lastCode = code
+        
+        guard let urlRequest = makeOAuthTokenRequest(code: code) else {
+            print("OAuth2Service Error: fail make request")
+            completion(.failure(NetworkError.invalidRequest))
+            return
         }
         
+        let task = urlSession.objectTask(for: urlRequest) { 
+            [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
+            completion(result)
+            
+            self?.task = nil
+            self?.lastCode = nil
+        }
+        self.task = task
         task.resume()
     }
     

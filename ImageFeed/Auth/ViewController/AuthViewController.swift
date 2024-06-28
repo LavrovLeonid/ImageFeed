@@ -31,6 +31,18 @@ final class AuthViewController: UIViewController, AuthViewControllerProtocol {
             super.prepare(for: segue, sender: sender)
         }
     }
+    
+    private func showErrorAlert(title: String, message: String) {
+        let alertController = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: .alert
+        )
+        
+        alertController.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
+        
+        present(alertController, animated: true)
+    }
 }
 
 // MARK: WebViewViewControllerDelegate
@@ -39,18 +51,24 @@ extension AuthViewController: WebViewViewControllerDelegate {
         _ vc: WebViewViewControllerProtocol,
         didAuthenticateWithCode code: String
     ) {
-        navigationController?.popViewController(animated: true)
+        vc.dismiss(animated: true)
+        
+        UIBlockingProgressHUD.show()
         
         oAuth2Service.fetchOAuthToken(code: code) { [weak self] result in
             guard let self else { return }
+            
+            UIBlockingProgressHUD.dismiss()
             
             switch result {
                 case .success(let data):
                     oAuth2TokenStorage.setToken(token: data.accessToken)
                     delegate?.didAuthenticate(self)
                 case .failure(_):
-                    // TODO: Будет реализовано позднее
-                    break
+                    showErrorAlert(
+                        title: "Что-то пошло не так(",
+                        message: "Не удалось войти в систему"
+                    )
             }
         }
     }
@@ -58,6 +76,6 @@ extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewControllerDidCancel(
         _ vc: WebViewViewControllerProtocol
     ) {
-        navigationController?.popViewController(animated: true)
+        vc.dismiss(animated: true)
     }
 }
