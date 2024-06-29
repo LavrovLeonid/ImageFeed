@@ -9,8 +9,8 @@ import Foundation
 
 struct PhotoResult: Decodable {
     let id: String?
-    let created_at: Date?
-    let updated_at: Date?
+    let created_at: String?
+    let updated_at: String?
     let width: Int?
     let height: Int?
     let liked_by_user: Bool?

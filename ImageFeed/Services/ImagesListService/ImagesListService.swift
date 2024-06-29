@@ -41,7 +41,6 @@ final class ImagesListService: ImagesListServiceProtocol {
             return
         }
         
-        
         let task = urlSession.objectTask(for: urlRequest) { [weak self] (result: Result<[PhotoResult], Error>) in
             switch result {
                 case .success(let photoResults):
@@ -77,7 +76,7 @@ final class ImagesListService: ImagesListServiceProtocol {
         }
         
         guard var urlComponents = URLComponents(
-            url: url, resolvingAgainstBaseURL: false
+            url: url, resolvingAgainstBaseURL: true
         ) else {
             assertionFailure("Error initializing Photos URLComponents")
             return nil

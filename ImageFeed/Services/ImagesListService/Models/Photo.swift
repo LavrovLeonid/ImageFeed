@@ -25,7 +25,7 @@ struct Photo {
             size = .zero
         }
         
-        createdAt = photoResult.created_at
+        createdAt = ISO8601DateFormatter().date(from: photoResult.created_at ?? "")
         welcomeDescription = photoResult.description
         isLiked = photoResult.liked_by_user ?? false
         
