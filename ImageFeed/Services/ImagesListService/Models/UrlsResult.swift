@@ -9,5 +9,5 @@ import Foundation
 
 struct UrlsResult: Decodable {
     let full: String?
-    let thumb: String?
+    let small: String?
 }

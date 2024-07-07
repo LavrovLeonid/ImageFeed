@@ -14,4 +14,5 @@ protocol ProfileImageServiceProtocol {
         username: String,
         _ completion: @escaping (Result<String, Error>) -> Void
     )
+    func resetProfileImage()
 }

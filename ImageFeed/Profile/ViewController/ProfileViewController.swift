@@ -13,6 +13,7 @@ final class ProfileViewController: UIViewController {
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     private let notificationCenter = NotificationCenter.default
+    private let profileLogoutService = ProfileLogoutService.shared
     
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
@@ -29,7 +30,7 @@ final class ProfileViewController: UIViewController {
         let button = UIButton.systemButton(
             with: UIImage(resource: .exit),
             target: self,
-            action: nil
+            action: #selector(exitButtonTapped)
         )
         
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -176,6 +177,10 @@ final class ProfileViewController: UIViewController {
         setupImage(url: url)
     }
     
+    @IBAction private func exitButtonTapped() {
+        showExitAlert()
+    }
+    
     private func addObserver() {
         notificationCenter.addObserver(
             self,
@@ -191,5 +196,20 @@ final class ProfileViewController: UIViewController {
             name: ProfileImageService.didChangeNotification,
             object: nil
         )
+    }
+    
+    private func showExitAlert() {
+        let alertController = UIAlertController(
+            title: "Пока, пока!",
+            message: "Уверены, что хотите выйти?",
+            preferredStyle: .alert
+        )
+        
+        alertController.addAction(UIAlertAction(title: "Да", style: .default) { [weak self] _ in
+            self?.profileLogoutService.logout()
+        })
+        alertController.addAction(UIAlertAction(title: "Нет", style: .default, handler: nil))
+        
+        present(alertController, animated: true)
     }
 }

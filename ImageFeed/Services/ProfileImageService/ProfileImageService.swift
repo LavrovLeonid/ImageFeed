@@ -79,6 +79,13 @@ final class ProfileImageService: ProfileImageServiceProtocol, Singleton {
         task.resume()
     }
     
+    func resetProfileImage() {
+        task?.cancel()
+        task = nil
+        lastUsername = nil
+        avatarURL = nil
+    }
+    
     // MARK: Private methods
     private func makeProfileImageURLRequest(username: String) -> URLRequest? {
         guard let url = URL(string: "/users/\(username)", relativeTo: Constants.defaultBaseURL) else {

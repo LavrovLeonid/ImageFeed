@@ -14,4 +14,5 @@ protocol ProfileSereviceProtocol {
         _ token: String,
         completion: @escaping (Result<Profile, Error>) -> Void
     )
+    func resetProfile()
 }

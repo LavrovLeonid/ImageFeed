@@ -66,6 +66,13 @@ final class ProfileService: ProfileSereviceProtocol, Singleton {
         task.resume()
     }
     
+    func resetProfile() {
+        task?.cancel()
+        task = nil
+        lastToken = nil
+        profile = nil
+    }
+    
     // MARK: Private methods
     private func makeProfileRequest(_ token: String) -> URLRequest? {
         guard let url = URL(string: "/me", relativeTo: Constants.defaultBaseURL) else {

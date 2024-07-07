@@ -41,7 +41,8 @@ final class ImagesListService: ImagesListServiceProtocol {
             return
         }
         
-        let task = urlSession.objectTask(for: urlRequest) { [weak self] (result: Result<[PhotoResult], Error>) in
+        let task = urlSession.objectTask(for: urlRequest) { 
+            [weak self] (result: Result<[PhotoResult], Error>) in
             switch result {
                 case .success(let photoResults):
                     let photos = photoResults.map { photoResult in
@@ -66,6 +67,58 @@ final class ImagesListService: ImagesListServiceProtocol {
         }
         
         lastTask = task
+        task.resume()
+    }
+    
+    func changeLike(
+        photoId: String,
+        isLike: Bool,
+        _ completion: @escaping (Result<Void, Error>
+        ) -> Void) {
+        guard let token = oAuth2TokenStorage.token else {
+            print("ImagesListService Error: not found token")
+            return
+        }
+        
+        guard let urlRequest = makePhotosLikeURLRequest(
+            photoId: photoId,
+            isLike: isLike,
+            token: token
+        ) else {
+            print("ImagesListService Error: fail make request")
+            return
+        }
+        
+        let task = urlSession.data(for: urlRequest) { [weak self] result in
+            guard let self else { return }
+            
+            switch result {
+                case .success:
+                    if let index = photos.firstIndex(where: { $0.id == photoId }) {
+                        let photo = photos[index]
+                        
+                        let newPhoto = Photo(
+                            id: photo.id,
+                            size: photo.size,
+                            createdAt: photo.createdAt,
+                            welcomeDescription: photo.welcomeDescription,
+                            thumbImageURL: photo.thumbImageURL,
+                            largeImageURL: photo.largeImageURL,
+                            isLiked: !photo.isLiked
+                        )
+                        
+                        self.photos[index] = newPhoto
+                    }
+                    completion(.success(Void()))
+                case .failure(let error):
+                    print(
+                        "ImagesListService Error: fail request with error ",
+                        error.localizedDescription
+                    )
+                    completion(.failure(error))
+            }
+        }
+        
         task.resume()
     }
     
@@ -94,6 +147,20 @@ final class ImagesListService: ImagesListServiceProtocol {
         
         var request = URLRequest(url: url)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        return request
+    }
+    
+    private func makePhotosLikeURLRequest(photoId: String, isLike: Bool, token: String) -> URLRequest? {
+        guard let url = URL(string: "/photos/\(photoId)/like", relativeTo: Constants.defaultBaseURL) else {
+            assertionFailure("Error initializing Photos URL")
+            return nil
+        }
+        
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        request.httpMethod = isLike ? "DELETE" : "POST"
         
         return request
     }

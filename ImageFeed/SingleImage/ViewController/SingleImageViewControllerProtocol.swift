@@ -8,5 +8,5 @@
 import UIKit
 
 protocol SingleImageViewControllerProtocol: UIViewController {
-    func setImage(image: UIImage)
+    func setPhoto(photo: Photo)
 }

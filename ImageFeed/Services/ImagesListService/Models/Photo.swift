@@ -16,6 +16,39 @@ struct Photo {
     let largeImageURL: String
     let isLiked: Bool
     
+    private var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        
+        formatter.dateStyle = .long
+        formatter.timeStyle = .none
+        
+        return formatter
+    }()
+    
+    var displayDate: String? {
+        guard let createdAt else { return nil }
+        
+        return dateFormatter.string(from: createdAt)
+    }
+    
+    init(
+        id: String,
+        size: CGSize,
+        createdAt: Date?,
+        welcomeDescription: String?,
+        thumbImageURL: String,
+        largeImageURL: String,
+        isLiked: Bool
+    ) {
+        self.id = id
+        self.size = size
+        self.createdAt = createdAt
+        self.welcomeDescription = welcomeDescription
+        self.thumbImageURL = thumbImageURL
+        self.largeImageURL = largeImageURL
+        self.isLiked = isLiked
+    }
+    
     init(photoResult: PhotoResult) {
         id = photoResult.id ?? UUID().uuidString
         
@@ -29,7 +62,7 @@ struct Photo {
         welcomeDescription = photoResult.description
         isLiked = photoResult.liked_by_user ?? false
         
-        thumbImageURL = photoResult.urls?.thumb ?? ""
+        thumbImageURL = photoResult.urls?.small ?? ""
         largeImageURL = photoResult.urls?.full ?? ""
     }
 }
