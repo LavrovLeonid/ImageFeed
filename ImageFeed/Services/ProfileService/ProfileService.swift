@@ -45,8 +45,16 @@ final class ProfileService: ProfileSereviceProtocol, Singleton {
         let task = urlSession.objectTask(for: urlRequest) { 
             [weak self] (result: Result<ProfileResult, Error>) in
             switch result {
-                case .success(let data):
-                    let profile = Profile(profileResult: data)
+                case .success(let profileResult):
+                    let username = profileResult.username ?? ""
+                    
+                    let profile = Profile(
+                        username: username,
+                        name: "\(profileResult.firstName ?? "") \(profileResult.lastName ?? "")"
+                            .trimmingCharacters(in: .whitespacesAndNewlines),
+                        login: "@\(username)",
+                        bio: profileResult.bio ?? ""
+                    )
                     
                     self?.profile = profile
                     

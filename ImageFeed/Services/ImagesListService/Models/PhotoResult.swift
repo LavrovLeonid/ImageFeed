@@ -9,11 +9,22 @@ import Foundation
 
 struct PhotoResult: Decodable {
     let id: String?
-    let created_at: String?
-    let updated_at: String?
+    let createdAt: String?
+    let updatedAt: String?
     let width: Int?
     let height: Int?
-    let liked_by_user: Bool?
+    let likedByUser: Bool?
     let description: String?
     let urls: UrlsResult?
+    
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case createdAt = "created_at"
+        case updatedAt = "updated_at"
+        case width
+        case height
+        case likedByUser = "liked_by_user"
+        case description
+        case urls
+    }
 }

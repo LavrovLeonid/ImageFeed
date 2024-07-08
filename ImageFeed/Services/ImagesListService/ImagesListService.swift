@@ -46,7 +46,23 @@ final class ImagesListService: ImagesListServiceProtocol {
             switch result {
                 case .success(let photoResults):
                     let photos = photoResults.map { photoResult in
-                        Photo(photoResult: photoResult)
+                        var size: CGSize
+                        
+                        if let width = photoResult.width, let height = photoResult.height {
+                            size = .init(width: width, height: height)
+                        } else {
+                            size = .zero
+                        }
+                        
+                        return Photo(
+                            id: photoResult.id ?? UUID().uuidString,
+                            size: size,
+                            createdAt: ISO8601DateFormatter().date(from: photoResult.createdAt ?? ""),
+                            welcomeDescription: photoResult.description,
+                            thumbImageURL: photoResult.urls?.small ?? "",
+                            largeImageURL: photoResult.urls?.full ?? "",
+                            isLiked: photoResult.likedByUser ?? false
+                        )
                     }
                     
                     self?.lastLoadedPage += 1
