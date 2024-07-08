@@ -9,6 +9,7 @@ import Foundation
 
 final class ImagesListService: ImagesListServiceProtocol {
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
+    static let iso8601DateFormatter = ISO8601DateFormatter()
     
     private(set) var photos: [Photo] = []
     private var lastLoadedPage: Int = 0
@@ -57,7 +58,9 @@ final class ImagesListService: ImagesListServiceProtocol {
                         return Photo(
                             id: photoResult.id ?? UUID().uuidString,
                             size: size,
-                            createdAt: ISO8601DateFormatter().date(from: photoResult.createdAt ?? ""),
+                            createdAt: photoResult.createdAt.flatMap {
+                                ImagesListService.iso8601DateFormatter.date(from: $0)
+                            },
                             welcomeDescription: photoResult.description,
                             thumbImageURL: photoResult.urls?.small ?? "",
                             largeImageURL: photoResult.urls?.full ?? "",

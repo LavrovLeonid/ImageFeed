@@ -108,6 +108,8 @@ final class ProfileViewController: UIViewController {
     
     // MARK: Private methods
     private func setupView() {
+        view.backgroundColor = .ypBlack
+        
         if let profile = profileService.profile {
             updateProfileDetails(profile: profile)
         }
