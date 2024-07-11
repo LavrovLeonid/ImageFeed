@@ -21,7 +21,7 @@ final class OAuth2TokenStorage: OAuth2TokenStorageProtocol, Singleton {
     }
     
     // MARK: Protperties
-    var token: String? {
+    private(set) var token: String? {
         get {
             guard let token = keychainWrapper.string(forKey: Keys.token.rawValue) else {
                 return nil
@@ -42,5 +42,9 @@ final class OAuth2TokenStorage: OAuth2TokenStorageProtocol, Singleton {
     // MARK: Methods
     func setToken(token: String) {
         self.token = token
+    }
+    
+    func resetToken() {
+        token = nil
     }
 }

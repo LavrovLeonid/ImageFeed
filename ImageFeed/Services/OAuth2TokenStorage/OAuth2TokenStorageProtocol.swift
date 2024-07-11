@@ -13,4 +13,5 @@ protocol OAuth2TokenStorageProtocol {
     var token: String? { get }
     
     func setToken(token: String)
+    func resetToken()
 }

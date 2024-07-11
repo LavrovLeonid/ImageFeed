@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class SingleImageViewController: UIViewController, SingleImageViewControllerProtocol {
     // MARK: Outlets
@@ -13,7 +14,7 @@ final class SingleImageViewController: UIViewController, SingleImageViewControll
     @IBOutlet private weak var imageView: UIImageView!
     
     // MARK: Private properties
-    private var image: UIImage? {
+    private var photo: Photo? {
         didSet {
             guard isViewLoaded else { return }
             
@@ -35,7 +36,7 @@ final class SingleImageViewController: UIViewController, SingleImageViewControll
     }
     
     @IBAction private func sharedButtonTapped() {
-        guard let image else { return }
+        guard let image = imageView.image else { return }
         
         let share = UIActivityViewController(
             activityItems: [image],
@@ -46,18 +47,29 @@ final class SingleImageViewController: UIViewController, SingleImageViewControll
     }
     
     // MARK: Properties
-    func setImage(image: UIImage) {
-        self.image = image
+    func setPhoto(photo: Photo) {
+        self.photo = photo
     }
     
     // MARK: Private properties
     private func setupImage() {
-        guard let image else { return }
+        guard let photo, let photoURL = URL(string: photo.largeImageURL) else { return }
         
-        imageView.image = image
-        imageView.frame.size = image.size
+        UIBlockingProgressHUD.show()
         
-        rescaleAndCenterImageInScrollView(image: image)
+        imageView.kf.setImage(with: photoURL, placeholder: UIImage(resource: .imageLoader)) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+            
+            guard let self else { return }
+            
+            switch result {
+                case .success(let imageResult):
+                    imageView.frame.size = imageResult.image.size
+                    rescaleAndCenterImageInScrollView(image: imageResult.image)
+                case .failure:
+                    showError()
+            }
+        }
     }
     
     private func rescaleAndCenterImageInScrollView(image: UIImage) {
@@ -80,6 +92,21 @@ final class SingleImageViewController: UIViewController, SingleImageViewControll
         let y = (newContentSize.height - visibleRectSize.height) / 2
         
         scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
+    }
+    
+    private func showError() {
+        let alertController = UIAlertController(
+            title: "Что-то пошло не так(",
+            message: "Попробовать ещё раз?",
+            preferredStyle: .alert
+        )
+        
+        alertController.addAction(UIAlertAction(title: "Не надо", style: .default, handler: nil))
+        alertController.addAction(UIAlertAction(title: "Повторить", style: .default) { [weak self] _ in
+            self?.setupImage()
+        })
+        
+        present(alertController, animated: true)
     }
 }
 

@@ -6,10 +6,13 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class ImagesListCell: UITableViewCell, ImagesListCellProtocol {
     // MARK: Static propertios
     static let reuseIdentifier = "ImagesListCell"
+    
+    weak var delegate: ImagesListCellDelegate?
     
     // MARK: Outlets
     @IBOutlet private weak var cellImageView: UIImageView!
@@ -23,14 +26,32 @@ final class ImagesListCell: UITableViewCell, ImagesListCellProtocol {
         }
     }
     
-    // MARK: Public methods
-    func setupCell(with dataSource: ImagesListCellDataSource) {
-        guard let image = UIImage(named: dataSource.imageName) else { return }
+    override func prepareForReuse() {
+        super.prepareForReuse()
         
-        cellImageView.image = image
-        dateLabel.text = dataSource.dateText
+        cellImageView.kf.cancelDownloadTask()
+    }
+    
+    // MARK: Public methods
+    func setupCell(with photo: Photo) {
+        if let placeholderImageData = UIImage(resource: .imageLoader).pngData() {
+            cellImageView.kf.indicatorType = .image(imageData: placeholderImageData)
+        }
+        
+        cellImageView.kf.setImage(with: URL(string: photo.thumbImageURL))
+        
+        dateLabel.text = photo.displayDate
+        
+        setIsLiked(isLiked: photo.isLiked)
+    }
+    
+    func setIsLiked(isLiked: Bool) {
         likeButton.setImage(
-            dataSource.isFavorite ? .favoriteActive : .favoriteNoActive, for: .normal
+            isLiked ? .favoriteActive : .favoriteNoActive, for: .normal
         )
+    }
+    
+    @IBAction private func likeButtonTapped() {
+        delegate?.imageListCellDidTapLike(self)
     }
 }

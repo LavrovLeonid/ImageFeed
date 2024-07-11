@@ -53,7 +53,7 @@ final class ProfileImageService: ProfileImageServiceProtocol, Singleton {
                         completion(.success(avatarURL))
                         
                         notificationService.post(
-                            name: ProfileImageService.didChangeNotification,
+                            name: Self.didChangeNotification,
                             object: self,
                             userInfo: ["URL": avatarURL]
                         )
@@ -77,6 +77,13 @@ final class ProfileImageService: ProfileImageServiceProtocol, Singleton {
         }
         self.task = task
         task.resume()
+    }
+    
+    func resetProfileImage() {
+        task?.cancel()
+        task = nil
+        lastUsername = nil
+        avatarURL = nil
     }
     
     // MARK: Private methods

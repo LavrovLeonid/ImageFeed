@@ -10,5 +10,8 @@ import UIKit
 protocol ImagesListCellProtocol: UITableViewCell {
     static var reuseIdentifier: String { get }
     
-    func setupCell(with dataSource: ImagesListCellDataSource)
+    var delegate: ImagesListCellDelegate? { get set }
+    
+    func setupCell(with photo: Photo)
+    func setIsLiked(isLiked: Bool)
 }
