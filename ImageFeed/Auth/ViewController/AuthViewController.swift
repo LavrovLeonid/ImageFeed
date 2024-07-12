@@ -19,14 +19,15 @@ final class AuthViewController: UIViewController, AuthViewControllerProtocol {
     // MARK: Overrides
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showWebViewSegueIdentifier {
-            guard
-                let viewController = segue.destination as? WebViewViewControllerProtocol
-            else {
+            guard let webViewViewController = segue.destination as? WebViewViewControllerProtocol else {
                 assertionFailure("Invalid segue destination")
                 return
             }
             
-            viewController.delegate = self
+            let webViewPresenter = WebViewPresenter(authHelper: AuthHelper())
+            webViewViewController.presenter = webViewPresenter
+            webViewPresenter.viewController = webViewViewController
+            webViewViewController.delegate = self
         } else {
             super.prepare(for: segue, sender: sender)
         }
