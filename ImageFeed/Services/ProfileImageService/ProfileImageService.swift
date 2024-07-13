@@ -9,6 +9,7 @@ import Foundation
 
 final class ProfileImageService: ProfileImageServiceProtocol, Singleton {
     static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
+    static let profileAvatarKey = "avatarURL"
     
     static var shared: ProfileImageServiceProtocol = ProfileImageService()
     private init() {}
@@ -55,7 +56,7 @@ final class ProfileImageService: ProfileImageServiceProtocol, Singleton {
                         notificationService.post(
                             name: Self.didChangeNotification,
                             object: self,
-                            userInfo: ["URL": avatarURL]
+                            userInfo: [Self.profileAvatarKey: avatarURL]
                         )
                     } else {
                         print(
