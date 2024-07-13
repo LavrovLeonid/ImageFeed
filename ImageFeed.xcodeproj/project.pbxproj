@@ -78,6 +78,7 @@
 		F4F543A02C42C023003FAFC7 /* ImagesListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F5439F2C42C023003FAFC7 /* ImagesListPresenter.swift */; };
 		F4F543A32C42E787003FAFC7 /* ImageHelperProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F543A22C42E787003FAFC7 /* ImageHelperProtocol.swift */; };
 		F4F543A52C42E88F003FAFC7 /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F543A42C42E88F003FAFC7 /* ImageHelper.swift */; };
+		F4F543A82C42F719003FAFC7 /* ImageHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F543A72C42F719003FAFC7 /* ImageHelperTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -162,6 +163,7 @@
 		F4F5439F2C42C023003FAFC7 /* ImagesListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListPresenter.swift; sourceTree = "<group>"; };
 		F4F543A22C42E787003FAFC7 /* ImageHelperProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelperProtocol.swift; sourceTree = "<group>"; };
 		F4F543A42C42E88F003FAFC7 /* ImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
+		F4F543A72C42F719003FAFC7 /* ImageHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelperTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -428,6 +430,7 @@
 		F483E1A42C40F173003B67F9 /* ImageFeedTests */ = {
 			isa = PBXGroup;
 			children = (
+				F4F543A62C42F6EC003FAFC7 /* ImageHelper */,
 				F4F5438D2C42A559003FAFC7 /* Profile */,
 				F483E1B12C40F6F1003B67F9 /* AuthHelper */,
 				F483E1AC2C40F243003B67F9 /* WebView */,
@@ -602,6 +605,14 @@
 			children = (
 				F4F543A22C42E787003FAFC7 /* ImageHelperProtocol.swift */,
 				F4F543A42C42E88F003FAFC7 /* ImageHelper.swift */,
+			);
+			path = ImageHelper;
+			sourceTree = "<group>";
+		};
+		F4F543A62C42F6EC003FAFC7 /* ImageHelper */ = {
+			isa = PBXGroup;
+			children = (
+				F4F543A72C42F719003FAFC7 /* ImageHelperTests.swift */,
 			);
 			path = ImageHelper;
 			sourceTree = "<group>";
@@ -784,6 +795,7 @@
 				F483E1B32C40F705003B67F9 /* AuthHelperTests.swift in Sources */,
 				F483E1B02C40F37E003B67F9 /* WebViewViewControllerSpy.swift in Sources */,
 				F483E1AE2C40F250003B67F9 /* WebViewPresenterSpy.swift in Sources */,
+				F4F543A82C42F719003FAFC7 /* ImageHelperTests.swift in Sources */,
 				F4F543932C42A753003FAFC7 /* ProfileViewControllerSpy.swift in Sources */,
 				F4F5438F2C42A57C003FAFC7 /* ProfileTests.swift in Sources */,
 				F4F543912C42A639003FAFC7 /* ProfilePresenterSpy.swift in Sources */,

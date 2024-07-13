@@ -8,7 +8,7 @@
 import UIKit
 
 struct ImageHelper: ImageHelperProtocol {
-    func calcPropotionalHeight(by size: CGSize, width: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
+    func calcPropotionalHeight(by size: CGSize, width: CGFloat, edgeInsets: UIEdgeInsets = .zero) -> CGFloat {
         let imageViewWidth = width - edgeInsets.left - edgeInsets.right
         let imageWidth = size.width
         
