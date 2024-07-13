@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class AuthHelper: AuthHelperProtocol {
+struct AuthHelper: AuthHelperProtocol {
     let configuration: AuthConfiguration
     
     init(configuration: AuthConfiguration = .standard) {

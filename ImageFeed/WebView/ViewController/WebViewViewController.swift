@@ -34,6 +34,11 @@ final class WebViewViewController:
         )
     }
     
+    func configure(_ presenter: WebViewPresenterProtocol) {
+        self.presenter = presenter
+        self.presenter?.viewController = self
+    }
+    
     func load(request: URLRequest) {
         webView.load(request)
     }

@@ -10,6 +10,7 @@ import Foundation
 final class ImagesListService: ImagesListServiceProtocol {
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
     static let iso8601DateFormatter = ISO8601DateFormatter()
+    static let `default` = ImagesListService()
     
     private(set) var photos: [Photo] = []
     private var lastLoadedPage: Int = 0

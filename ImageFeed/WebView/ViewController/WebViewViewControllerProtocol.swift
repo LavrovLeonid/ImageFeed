@@ -11,6 +11,7 @@ protocol WebViewViewControllerProtocol: UIViewController {
     var presenter: WebViewPresenterProtocol? { get set }
     var delegate: WebViewViewControllerDelegate? { get set }
     
+    func configure(_ presenter: WebViewPresenterProtocol)
     func load(request: URLRequest)
     func setProgressValue(_ newValue: Float)
     func setProgressHidden(_ isHidden: Bool)

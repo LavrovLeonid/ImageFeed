@@ -16,8 +16,7 @@ final class WebViewTests: XCTestCase {
             withIdentifier: "WebViewViewController"
         ) as! WebViewViewController
         let presenter = WebViewPresenterSpy()
-        viewController.presenter = presenter
-        presenter.viewController = viewController
+        viewController.configure(presenter)
         
         //when
         _ = viewController.view
@@ -31,8 +30,7 @@ final class WebViewTests: XCTestCase {
         let viewController = WebViewViewControllerSpy()
         let authHelper = AuthHelper()
         let presenter = WebViewPresenter(authHelper: authHelper)
-        viewController.presenter = presenter
-        presenter.viewController = viewController
+        viewController.configure(presenter)
         
         //when
         presenter.viewDidLoad()

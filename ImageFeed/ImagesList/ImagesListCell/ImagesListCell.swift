@@ -12,7 +12,7 @@ final class ImagesListCell: UITableViewCell, ImagesListCellProtocol {
     // MARK: Static propertios
     static let reuseIdentifier = "ImagesListCell"
     
-    weak var delegate: ImagesListCellDelegate?
+    private weak var delegate: ImagesListCellDelegate?
     
     // MARK: Outlets
     @IBOutlet private weak var cellImageView: UIImageView!
@@ -33,7 +33,9 @@ final class ImagesListCell: UITableViewCell, ImagesListCellProtocol {
     }
     
     // MARK: Public methods
-    func setupCell(with photo: Photo) {
+    func setupCell(with photo: Photo, delegate: ImagesListCellDelegate) {
+        self.delegate = delegate
+        
         if let placeholderImageData = UIImage(resource: .imageLoader).pngData() {
             cellImageView.kf.indicatorType = .image(imageData: placeholderImageData)
         }
