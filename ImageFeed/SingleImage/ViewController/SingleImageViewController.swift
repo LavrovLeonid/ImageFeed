@@ -12,6 +12,11 @@ final class SingleImageViewController: UIViewController, SingleImageViewControll
     // MARK: Outlets
     @IBOutlet private weak var scrollView: UIScrollView!
     @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private weak var backButton: UIButton! {
+        didSet {
+            backButton.accessibilityIdentifier = "nav back button"
+        }
+    }
     
     // MARK: Private properties
     private var photo: Photo? {

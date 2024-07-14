@@ -48,9 +48,13 @@ final class ImagesListCell: UITableViewCell, ImagesListCellProtocol {
     }
     
     func setIsLiked(isLiked: Bool) {
-        likeButton.setImage(
-            isLiked ? .favoriteActive : .favoriteNoActive, for: .normal
-        )
+        if isLiked {
+            likeButton.setImage(.favoriteActive, for: .normal)
+            likeButton.accessibilityIdentifier = "like button on"
+        } else {       
+            likeButton.setImage(.favoriteNoActive, for: .normal)
+            likeButton.accessibilityIdentifier = "like button off"
+        }
     }
     
     @IBAction private func likeButtonTapped() {

@@ -33,6 +33,7 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
         
         button.translatesAutoresizingMaskIntoConstraints = false
         button.tintColor = .ypRed
+        button.accessibilityIdentifier = "logout button"
         
         return button
     }()
@@ -154,9 +155,15 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
             preferredStyle: .alert
         )
         
-        alertController.addAction(UIAlertAction(title: "Да", style: .default) { [weak self] _ in
+        alertController.view.accessibilityIdentifier = "Bye bye!"
+        
+        let yesAction = UIAlertAction(title: "Да", style: .default) { [weak self] _ in
             self?.presenter?.logoutProfile()
-        })
+        }
+        
+        yesAction.accessibilityIdentifier = "Yes"
+        
+        alertController.addAction(yesAction)
         alertController.addAction(UIAlertAction(title: "Нет", style: .default, handler: nil))
         
         present(alertController, animated: true)

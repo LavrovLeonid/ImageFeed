@@ -14,7 +14,11 @@ final class WebViewViewController:
     
     weak var delegate: WebViewViewControllerDelegate?
     
-    @IBOutlet private weak var webView: WKWebView!
+    @IBOutlet private weak var webView: WKWebView! {
+        didSet {
+            webView.accessibilityIdentifier = "UnsplashWebView"
+        }
+    }
     @IBOutlet private weak var progressView: UIProgressView!
     
     private var estimatedProgressObservation: NSKeyValueObservation?

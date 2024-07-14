@@ -13,6 +13,12 @@ final class AuthViewController: UIViewController, AuthViewControllerProtocol {
     private let oAuth2Service: OAuth2ServiceProtocol = OAuth2Service.shared
     private let oAuth2TokenStorage: OAuth2TokenStorageProtocol = OAuth2TokenStorage.shared
     
+    @IBOutlet private weak var authenticateButton: UIButton! {
+        didSet {
+            authenticateButton.accessibilityIdentifier = "Authenticate"
+        }
+    }
+    
     // MARK: Properties
     weak var delegate: AuthViewControllerDelegate?
     
