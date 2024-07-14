@@ -10,13 +10,13 @@ import Foundation
 final class ImagesListService: ImagesListServiceProtocol {
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
     static let iso8601DateFormatter = ISO8601DateFormatter()
+    static let pagePhotosCount = 10
     static let `default` = ImagesListService()
     
     private(set) var photos: [Photo] = []
     private var lastLoadedPage: Int = 0
     private var lastTask: URLSessionTask?
     
-    private let perPage = 10
     private let urlSession = URLSession.shared
     private let notificationService = NotificationCenter.default
     private let oAuth2TokenStorage = OAuth2TokenStorage.shared
@@ -36,7 +36,7 @@ final class ImagesListService: ImagesListServiceProtocol {
         
         guard let urlRequest = makePhotosURLRequest(
             page: nextPage,
-            perPage: perPage,
+            perPage: Self.pagePhotosCount,
             token: token
         ) else {
             print("ImagesListService Error: fail make request")

@@ -79,6 +79,10 @@
 		F4F543A32C42E787003FAFC7 /* ImageHelperProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F543A22C42E787003FAFC7 /* ImageHelperProtocol.swift */; };
 		F4F543A52C42E88F003FAFC7 /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F543A42C42E88F003FAFC7 /* ImageHelper.swift */; };
 		F4F543A82C42F719003FAFC7 /* ImageHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F543A72C42F719003FAFC7 /* ImageHelperTests.swift */; };
+		F4F543AB2C42F92D003FAFC7 /* ImagesListPresenterSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F543AA2C42F92D003FAFC7 /* ImagesListPresenterSpy.swift */; };
+		F4F543AD2C42F939003FAFC7 /* ImagesListViewControllerSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F543AC2C42F939003FAFC7 /* ImagesListViewControllerSpy.swift */; };
+		F4F543AF2C42F94E003FAFC7 /* ImagesListServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F543AE2C42F94E003FAFC7 /* ImagesListServiceMock.swift */; };
+		F4F543B12C42FB03003FAFC7 /* ImagesListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F543B02C42FB03003FAFC7 /* ImagesListTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -164,6 +168,10 @@
 		F4F543A22C42E787003FAFC7 /* ImageHelperProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelperProtocol.swift; sourceTree = "<group>"; };
 		F4F543A42C42E88F003FAFC7 /* ImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
 		F4F543A72C42F719003FAFC7 /* ImageHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelperTests.swift; sourceTree = "<group>"; };
+		F4F543AA2C42F92D003FAFC7 /* ImagesListPresenterSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListPresenterSpy.swift; sourceTree = "<group>"; };
+		F4F543AC2C42F939003FAFC7 /* ImagesListViewControllerSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListViewControllerSpy.swift; sourceTree = "<group>"; };
+		F4F543AE2C42F94E003FAFC7 /* ImagesListServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListServiceMock.swift; sourceTree = "<group>"; };
+		F4F543B02C42FB03003FAFC7 /* ImagesListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -430,6 +438,7 @@
 		F483E1A42C40F173003B67F9 /* ImageFeedTests */ = {
 			isa = PBXGroup;
 			children = (
+				F4F543A92C42F8E9003FAFC7 /* ImagesList */,
 				F4F543A62C42F6EC003FAFC7 /* ImageHelper */,
 				F4F5438D2C42A559003FAFC7 /* Profile */,
 				F483E1B12C40F6F1003B67F9 /* AuthHelper */,
@@ -617,6 +626,17 @@
 			path = ImageHelper;
 			sourceTree = "<group>";
 		};
+		F4F543A92C42F8E9003FAFC7 /* ImagesList */ = {
+			isa = PBXGroup;
+			children = (
+				F4F543AA2C42F92D003FAFC7 /* ImagesListPresenterSpy.swift */,
+				F4F543AC2C42F939003FAFC7 /* ImagesListViewControllerSpy.swift */,
+				F4F543AE2C42F94E003FAFC7 /* ImagesListServiceMock.swift */,
+				F4F543B02C42FB03003FAFC7 /* ImagesListTests.swift */,
+			);
+			path = ImagesList;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -795,10 +815,14 @@
 				F483E1B32C40F705003B67F9 /* AuthHelperTests.swift in Sources */,
 				F483E1B02C40F37E003B67F9 /* WebViewViewControllerSpy.swift in Sources */,
 				F483E1AE2C40F250003B67F9 /* WebViewPresenterSpy.swift in Sources */,
+				F4F543AB2C42F92D003FAFC7 /* ImagesListPresenterSpy.swift in Sources */,
 				F4F543A82C42F719003FAFC7 /* ImageHelperTests.swift in Sources */,
 				F4F543932C42A753003FAFC7 /* ProfileViewControllerSpy.swift in Sources */,
+				F4F543AD2C42F939003FAFC7 /* ImagesListViewControllerSpy.swift in Sources */,
+				F4F543B12C42FB03003FAFC7 /* ImagesListTests.swift in Sources */,
 				F4F5438F2C42A57C003FAFC7 /* ProfileTests.swift in Sources */,
 				F4F543912C42A639003FAFC7 /* ProfilePresenterSpy.swift in Sources */,
+				F4F543AF2C42F94E003FAFC7 /* ImagesListServiceMock.swift in Sources */,
 				F4F543952C42AC9F003FAFC7 /* ProfileServiceMock.swift in Sources */,
 				F4F543972C42B133003FAFC7 /* ProfileImageServiceMock.swift in Sources */,
 			);

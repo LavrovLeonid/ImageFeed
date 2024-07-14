@@ -14,7 +14,7 @@ final class WebViewTests: XCTestCase {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let viewController = storyboard.instantiateViewController(
             withIdentifier: "WebViewViewController"
-        ) as! WebViewViewController
+        ) as! WebViewViewControllerProtocol
         let presenter = WebViewPresenterSpy()
         viewController.configure(presenter)
         

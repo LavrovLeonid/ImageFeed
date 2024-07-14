@@ -19,9 +19,7 @@ final class ImagesListViewController: UIViewController, ImagesListViewController
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
     private let cellEdgeInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
     private(set) var presenter: ImagesListPresenterProtocol?
-    private var photos: [Photo] {
-        presenter?.photos ?? []
-    }
+    private var photos: [Photo] { presenter?.photos ?? [] }
     
     // MARK: Overrides
     override func viewDidLoad() {

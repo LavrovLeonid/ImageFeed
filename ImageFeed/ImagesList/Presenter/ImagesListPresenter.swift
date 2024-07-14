@@ -50,25 +50,25 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
     }
     
     func cellLikeTapped(at indexPath: IndexPath) {
-        guard let imagesListService else { return }
+        guard let imagesListService, let viewController else { return }
         
         let photo = photos[indexPath.row]
         
-        viewController?.showLoader()
+        viewController.showLoader()
         
         imagesListService.changeLike(photoId: photo.id, isLike: photo.isLiked) {
             [weak self] result in
             guard let self else { return }
             
-            viewController?.dismissLoader()
+            viewController.dismissLoader()
             
             switch result {
                 case .success:
                     photos = imagesListService.photos
                     
-                    viewController?.updateCellLike(at: indexPath)
+                    viewController.updateCellLike(at: indexPath)
                 case .failure:
-                    viewController?.showErrorAlert(
+                    viewController.showErrorAlert(
                         title: "Что-то пошло не так(",
                         message: "Не удалось изменить избранное"
                     )

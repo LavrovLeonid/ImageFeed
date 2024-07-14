@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Photo {
+struct Photo: Equatable {
     let id: String
     let size: CGSize
     let createdAt: Date?
@@ -29,5 +29,9 @@ struct Photo {
         guard let createdAt else { return nil }
         
         return Photo.dateFormatter.string(from: createdAt)
+    }
+    
+    static func == (lhs: Photo, rhs: Photo) -> Bool {
+        lhs.id == rhs.id
     }
 }
