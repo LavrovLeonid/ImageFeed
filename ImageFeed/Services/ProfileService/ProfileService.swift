@@ -7,9 +7,9 @@
 
 import Foundation
 
-final class ProfileService: ProfileSereviceProtocol, Singleton {
+final class ProfileService: ProfileServiceProtocol, Singleton {
     // MARK: Singleton
-    static var shared: ProfileSereviceProtocol = ProfileService()
+    static var shared: ProfileServiceProtocol = ProfileService()
     private init() {}
     
     // MARK: Properties

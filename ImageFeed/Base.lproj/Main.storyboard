@@ -65,6 +65,7 @@
                                                 </view>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="blm-kl-X2F" userLabel="Like Button">
                                                     <rect key="frame" x="354" y="4" width="44" height="44"/>
+                                                    <accessibility key="accessibilityConfiguration" identifier="like button" label="like button"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="44" id="4EN-Kt-b3m"/>
                                                         <constraint firstAttribute="width" constant="44" id="UsK-77-KYX"/>
@@ -147,6 +148,9 @@
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wuv-g8-cV7" userLabel="Back Button">
                                 <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                <accessibility key="accessibilityConfiguration" identifier="nav back button" label="nav back button">
+                                    <bool key="isElement" value="YES"/>
+                                </accessibility>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="42" id="RxL-i3-95O"/>
                                     <constraint firstAttribute="width" constant="42" id="YUc-nv-Uft"/>
@@ -185,6 +189,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Fgj-QQ-si2"/>
                     <connections>
+                        <outlet property="backButton" destination="Wuv-g8-cV7" id="Y6X-ls-McH"/>
                         <outlet property="imageView" destination="cpG-L0-KQE" id="gyr-2i-jRL"/>
                         <outlet property="scrollView" destination="kpS-XM-cUG" id="Egi-YI-2Vv"/>
                     </connections>
@@ -240,6 +245,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="JS0-5q-akr"/>
+                    <connections>
+                        <outlet property="authenticateButton" destination="dvl-NZ-PjI" id="dzf-um-1uR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ULb-qS-jFi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -248,7 +256,7 @@
         <!--Web View View Controller-->
         <scene sceneID="X56-tE-ewv">
             <objects>
-                <viewController id="BSy-Ex-q2D" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WebViewViewController" id="BSy-Ex-q2D" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="DoX-AK-Ahm">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -12,12 +12,16 @@ final class ImagesListCell: UITableViewCell, ImagesListCellProtocol {
     // MARK: Static propertios
     static let reuseIdentifier = "ImagesListCell"
     
-    weak var delegate: ImagesListCellDelegate?
+    private weak var delegate: ImagesListCellDelegate?
     
     // MARK: Outlets
     @IBOutlet private weak var cellImageView: UIImageView!
     @IBOutlet private weak var dateLabel: UILabel!
-    @IBOutlet private weak var likeButton: UIButton!
+    @IBOutlet private weak var likeButton: UIButton! {
+        didSet {
+            likeButton.accessibilityIdentifier = "like button"
+        }
+    }
     @IBOutlet private weak var gradientView: GradientView! {
         didSet {
             gradientView.clipsToBounds = true
@@ -33,7 +37,9 @@ final class ImagesListCell: UITableViewCell, ImagesListCellProtocol {
     }
     
     // MARK: Public methods
-    func setupCell(with photo: Photo) {
+    func setupCell(with photo: Photo, delegate: ImagesListCellDelegate) {
+        self.delegate = delegate
+        
         if let placeholderImageData = UIImage(resource: .imageLoader).pngData() {
             cellImageView.kf.indicatorType = .image(imageData: placeholderImageData)
         }
@@ -46,9 +52,7 @@ final class ImagesListCell: UITableViewCell, ImagesListCellProtocol {
     }
     
     func setIsLiked(isLiked: Bool) {
-        likeButton.setImage(
-            isLiked ? .favoriteActive : .favoriteNoActive, for: .normal
-        )
+        likeButton.setImage(isLiked ? .favoriteActive : .favoriteNoActive, for: .normal)
     }
     
     @IBAction private func likeButtonTapped() {

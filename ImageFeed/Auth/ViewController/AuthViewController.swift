@@ -13,20 +13,26 @@ final class AuthViewController: UIViewController, AuthViewControllerProtocol {
     private let oAuth2Service: OAuth2ServiceProtocol = OAuth2Service.shared
     private let oAuth2TokenStorage: OAuth2TokenStorageProtocol = OAuth2TokenStorage.shared
     
+    @IBOutlet private weak var authenticateButton: UIButton! {
+        didSet {
+            authenticateButton.accessibilityIdentifier = "Authenticate"
+        }
+    }
+    
     // MARK: Properties
     weak var delegate: AuthViewControllerDelegate?
     
     // MARK: Overrides
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showWebViewSegueIdentifier {
-            guard
-                let viewController = segue.destination as? WebViewViewControllerProtocol
-            else {
+            guard let webViewViewController = segue.destination as? WebViewViewControllerProtocol else {
                 assertionFailure("Invalid segue destination")
                 return
             }
             
-            viewController.delegate = self
+            let webViewPresenter = WebViewPresenter(authHelper: AuthHelper())
+            webViewViewController.configure(webViewPresenter)
+            webViewViewController.delegate = self
         } else {
             super.prepare(for: segue, sender: sender)
         }

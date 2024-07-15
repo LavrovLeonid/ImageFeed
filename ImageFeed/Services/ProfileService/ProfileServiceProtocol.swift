@@ -1,5 +1,5 @@
 //
-//  ProfileSereviceProtocol.swift
+//  ProfileServiceProtocol.swift
 //  ImageFeed
 //
 //  Created by Леонид Лавров on 6/17/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ProfileSereviceProtocol {
+protocol ProfileServiceProtocol {
     var profile: Profile? { get }
     
     func fetchProfile(

@@ -17,7 +17,27 @@ final class TabBarController: UITabBarController {
             withIdentifier: "ImagesListViewController"
         )
         
+        if let imagesListViewController = imagesListViewController as? ImagesListViewControllerProtocol {
+            imagesListViewController.configure(
+                ImagesListPresenter(
+                    imagesListService: ImagesListService.default,
+                    notificationCenter: NotificationCenter.default,
+                    imageHelper: ImageHelper()
+                )
+            )
+        }
+        
         let profileViewController = ProfileViewController()
+        
+        profileViewController.configure(
+            ProfilePresenter(
+                profileService: ProfileService.shared,
+                profileImageService: ProfileImageService.shared,
+                profileLogoutService: ProfileLogoutService.shared,
+                notificationCenter: NotificationCenter.default
+            )
+        )
+        
         profileViewController.tabBarItem = UITabBarItem(
             title: nil,
             image: UIImage(resource: .tabProfileActive),
