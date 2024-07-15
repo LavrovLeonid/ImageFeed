@@ -17,7 +17,11 @@ final class ImagesListCell: UITableViewCell, ImagesListCellProtocol {
     // MARK: Outlets
     @IBOutlet private weak var cellImageView: UIImageView!
     @IBOutlet private weak var dateLabel: UILabel!
-    @IBOutlet private weak var likeButton: UIButton!
+    @IBOutlet private weak var likeButton: UIButton! {
+        didSet {
+            likeButton.accessibilityIdentifier = "like button"
+        }
+    }
     @IBOutlet private weak var gradientView: GradientView! {
         didSet {
             gradientView.clipsToBounds = true
@@ -48,13 +52,7 @@ final class ImagesListCell: UITableViewCell, ImagesListCellProtocol {
     }
     
     func setIsLiked(isLiked: Bool) {
-        if isLiked {
-            likeButton.setImage(.favoriteActive, for: .normal)
-            likeButton.accessibilityIdentifier = "like button on"
-        } else {       
-            likeButton.setImage(.favoriteNoActive, for: .normal)
-            likeButton.accessibilityIdentifier = "like button off"
-        }
+        likeButton.setImage(isLiked ? .favoriteActive : .favoriteNoActive, for: .normal)
     }
     
     @IBAction private func likeButtonTapped() {

@@ -155,7 +155,7 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
             preferredStyle: .alert
         )
         
-        alertController.view.accessibilityIdentifier = "Bye bye!"
+        alertController.view.accessibilityIdentifier = "logOutAlert"
         
         let yesAction = UIAlertAction(title: "Да", style: .default) { [weak self] _ in
             self?.presenter?.logoutProfile()

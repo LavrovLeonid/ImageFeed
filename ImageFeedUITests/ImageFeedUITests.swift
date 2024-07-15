@@ -28,19 +28,19 @@ final class ImageFeedUITests: XCTestCase {
         
         loginTextField.tap()
         loginTextField.typeText("<логин>")
-        webView.swipeUp()
-        XCTAssertTrue(loginTextField.waitForExistence(timeout: 1))
+        XCTAssertTrue(loginTextField.waitForExistence(timeout: 2))
+        app.toolbars.buttons["Done"].tap()
         
         let passwordTextField = webView.descendants(matching: .secureTextField).element
         XCTAssertTrue(passwordTextField.waitForExistence(timeout: 5))
         
         passwordTextField.tap()
         passwordTextField.typeText("<пароль>")
-        webView.swipeUp()
-        XCTAssertTrue(webView.waitForExistence(timeout: 1))
+        
+        XCTAssertTrue(webView.waitForExistence(timeout: 2))
+        app.toolbars.buttons["Done"].tap()
         
         webView.buttons["Login"].tap()
-        
         
         let tablesQuery = app.tables
         let cell = tablesQuery.children(matching: .cell).element(boundBy: 0)
@@ -49,17 +49,20 @@ final class ImageFeedUITests: XCTestCase {
     }
     
     func testFeed() throws {
+        sleep(2)
+        
         let tablesQuery = app.tables
         
         let cell = tablesQuery.children(matching: .cell).element(boundBy: 0)
+        cell.swipeUp()
         
-        let cellToLike = tablesQuery.children(matching: .cell).element(boundBy: 1)
+        let cellToLike = tablesQuery.children(matching: .cell).element(boundBy: 2)
         
-        cellToLike.buttons["like button off"].tap()
+        cellToLike.buttons["like button"].tap()
         
         sleep(2)
         
-        cellToLike.buttons["like button on"].tap()
+        cellToLike.buttons["like button"].tap()
         
         sleep(2)
         
@@ -80,12 +83,16 @@ final class ImageFeedUITests: XCTestCase {
     func testProfile() throws {
         sleep(2)
         app.tabBars.buttons.element(boundBy: 1).tap()
-        // MARK:
+        
         XCTAssertTrue(app.staticTexts["Leonid Lavrov"].exists)
         XCTAssertTrue(app.staticTexts["@leonidlavrov"].exists)
         
         app.buttons["logout button"].tap()
         
-        app.alerts["Bye bye!"].scrollViews.otherElements.buttons["Yes"].tap()
+        app.alerts["logOutAlert"].scrollViews.otherElements.buttons["Yes"].tap()
+        
+        sleep(2)
+        
+        XCTAssertTrue(app.buttons["Authenticate"].exists)
     }
 }
